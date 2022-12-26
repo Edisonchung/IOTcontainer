@@ -1,0 +1,40 @@
+version: "3"
+services:
+  nodered:
+    container_name: nodered1
+    image: nodered/node-red:latest
+    ports:
+      - "1881:1880"  
+    restart: unless-stopped
+      
+    container_name: nodered2
+    image: nodered/node-red:latest
+    ports:
+      - "1882:1880"  
+    restart: unless-stopped
+    networks:
+      faradaynet:
+        ipv4_address: 192.168.93.3
+networks:
+  faradaynet:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.93.0/24"
+        
+    environment:
+      - TZ=Etc/UTC
+  
+    volumes:
+      - ./volumes/nodered/data:/data
+      - ./volumes/nodered/ssh:/root/.ssh
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+    networks:
+      faradaynet:
+        ipv4_address: "10.16.13.1"
+    
+    devices:
+      - "/dev/ttyAMA0:/dev/ttyAMA0"
+      - "/dev/vcio:/dev/vcio"
+      - "/dev/gpiomem:/dev/gpiomem"
