@@ -17,10 +17,10 @@ services:
         ipv4_address: 192.168.93.3
 networks:
   faradaynet:
-    ipam:
-      driver: default
-      config:
-        - subnet: "192.168.93.0/24"
+        ipam:
+        driver: default
+        config:
+          - subnet: "192.168.93.0/24"
         
     environment:
       - TZ=Etc/UTC
